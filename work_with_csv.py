@@ -1,24 +1,23 @@
 import csv
 import os
 
-file_name = 'notes.csv'
-fields=['id', 'head', 'body', 'date_of_creation', 'last_edit_date']
+class Work_with_csv:
 
-def save_data_to_csv(notes_lst):
-    with open(file_name,'w',encoding='utf-8', newline='') as data_csv:
-        writer = csv.DictWriter(data_csv, fields, delimiter=';')
-        writer.writeheader()
-        writer.writerows(notes_lst)
+    def __init__(self, fields, file_name):
+        self.file_name=file_name
+        self.fields=fields
+
+    def save_data_to_csv(self,notes_lst):
+        with open(self.file_name,'w',encoding='utf-8', newline='') as data_file_csv:
+            writer = csv.DictWriter(data_file_csv, self.fields, delimiter=';')
+            writer.writeheader()
+            writer.writerows(notes_lst)
 
 
-
-#идентификатор, заголовок, тело заметки и дату/время создания или
-#последнего изменения заметки
-
-def read_data_from_csv():
-    notes_lst = []
-    if os.path.isfile(file_name):
-        with open(file_name,'r',encoding='utf-8', newline='') as data_csv:     # newline='' ???
-            reader = csv.DictReader(data_csv, delimiter=';') 
-            notes_lst=[i for i in reader]
-    return notes_lst
+    def read_data_from_csv(self):
+        notes_lst = []
+        if os.path.isfile(self.file_name):
+            with open(self.file_name,'r',encoding='utf-8', newline='') as data_file_csv: 
+                reader = csv.DictReader(data_file_csv, delimiter=';') 
+                notes_lst=[i for i in reader]
+        return notes_lst
