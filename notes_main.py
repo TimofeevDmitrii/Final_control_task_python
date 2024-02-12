@@ -4,8 +4,8 @@ import work_with_notes
 
 
 fields=['id', 'Название заметки', 'Дата создания', 'Автор', 'Описание заметки']
-data_csv = work_with_csv.Work_with_csv(fields)
-data_work=work_with_notes.Work_with_notes(fields)
+data_csv = work_with_csv.WorkWithCSV(fields)
+data_work=work_with_notes.WorkWithNotes(fields)
 
 # идентификатор, заголовок, тело заметки и дату/время создания или
 # последнего изменения заметки
