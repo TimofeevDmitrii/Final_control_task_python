@@ -1,6 +1,6 @@
 
 
-class Notes_menu:
+class NotesMenu:
 
     def show_menu(self):
         print('1. Распечатать все заметки',
