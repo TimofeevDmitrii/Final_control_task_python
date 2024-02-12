@@ -1,7 +1,7 @@
 import csv
 import os
 
-class Work_with_csv:
+class WorkWithCSV:
 
     __file_name = 'Notes.csv'
 

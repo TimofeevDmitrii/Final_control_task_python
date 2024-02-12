@@ -1,6 +1,6 @@
 
 
-class Work_with_notes:
+class WorkWithNotes:
 
     def __init__(self, fields):
         self.__fields=fields
