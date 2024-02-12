@@ -5,12 +5,12 @@ import work_with_notes
 
 fields=['id', 'Название заметки', 'Дата создания', 'Автор', 'Описание заметки']
 data_csv = work_with_csv.WorkWithCSV(fields)
-data_work=work_with_notes.WorkWithNotes(fields)
+data_work=work_with_notes.WorkWithNotes()
 
 # идентификатор, заголовок, тело заметки и дату/время создания или
 # последнего изменения заметки
 
-# note_1=['10004', 'note1','15.01.2022','Egor', 'ооооочень длинная заметка000000000000000 yyeeeeeee jjjjj lkbyyfz']
+# note_1=['10004', 'note1','15.01.2022','Egor', 'ооооочень длинная заметка000000000000000 yyeeeeeee jjjjj lkbyyfz, ну оооочоень длинная заметка что аж капец']
 # note_2=['205', 'note2','12.12.2020','Timofey', 'Какое-то описание']
 # notes =[]
 
