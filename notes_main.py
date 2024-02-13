@@ -29,5 +29,7 @@ data_work.print_notes(all_notes)
 # data_work.print_notes(all_notes)
 # data_csv.save_data_to_csv(all_notes)
 
-data_work.find_note_by_id(all_notes)
+# data_work.print_notes(data_work.find_note_by_id(all_notes))
+
+data_work.print_notes(data_work.find_notes_by_date(all_notes,'Дата создания'))
 

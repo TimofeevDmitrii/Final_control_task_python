@@ -85,7 +85,14 @@ class WorkWithNotes:
         note_index=self.__find_note_index(notes_lst, input("Введите id для поиска:"))
         if type(note_index)==str:
             print(note_index) 
+            return []
         else:
-            self.print_notes([notes_lst[note_index]])
+            return [notes_lst[note_index]]
 
-    
+    def find_notes_by_date(self, notes_lst, date_key):  
+        try:
+            date=datetime.datetime.strptime(input('Введите '+date_key.replace('Дата','дату')+':'), '%d.%m.%Y')
+        except ValueError:
+            print("При вводе даты использован неверный формат")
+            return []
+        return list(filter(lambda x: date==datetime.datetime.strptime(x[date_key], '%d.%m.%Y'), notes_lst))
