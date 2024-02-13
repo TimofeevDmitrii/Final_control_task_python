@@ -71,3 +71,21 @@ class WorkWithNotes:
             new_note['Название заметки']=new_note['Название заметки'][:39]  
         notes_lst.append(new_note)
         print(f'Добавлена новая заметка (id: {new_note["id"]})')
+
+
+    def __find_note_index(self, notes_lst, id): 
+        for i in range(len(notes_lst)):
+            if notes_lst[i]['id']==id:
+                return i
+        else:
+            return 'Заметки с таким id нет'
+
+    
+    def find_note_by_id(self, notes_lst): 
+        note_index=self.__find_note_index(notes_lst, input("Введите id для поиска:"))
+        if type(note_index)==str:
+            print(note_index) 
+        else:
+            self.print_notes([notes_lst[note_index]])
+
+    
