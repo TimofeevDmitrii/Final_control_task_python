@@ -3,7 +3,7 @@ import work_with_notes
 
 
 
-fields=['id', 'Название заметки', 'Дата создания', 'Автор', 'Описание заметки']
+fields=['id','Дата создания','Дата изменения', 'Название заметки', 'Описание заметки']
 data_csv = work_with_csv.WorkWithCSV(fields)
 data_work=work_with_notes.WorkWithNotes()
 
@@ -21,12 +21,10 @@ data_work=work_with_notes.WorkWithNotes()
 
 
 
-notes_from_csv= data_csv.read_data_from_csv()
+all_notes= data_csv.read_data_from_csv()
 # print(notes_from_csv)
-data_work.print_notes(notes_from_csv)
-# if len(notes_from_csv)!=0:
-#     for i in notes_from_csv:
-#         print(i)
-# else:
-#     print("Заметок еще не было добавлено")
+data_work.print_notes(all_notes)
+data_work.add_new_note(all_notes)
+data_work.print_notes(all_notes)
+data_csv.save_data_to_csv(all_notes)
 
