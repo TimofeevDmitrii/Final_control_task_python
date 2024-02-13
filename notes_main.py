@@ -1,11 +1,13 @@
 import work_with_csv
-import work_with_notes 
+import work_with_notes
+import notes_view 
 
 
 
 fields=['id','Дата создания','Дата изменения', 'Название заметки', 'Описание заметки']
 data_csv = work_with_csv.WorkWithCSV(fields)
 data_work=work_with_notes.WorkWithNotes()
+data_view=notes_view.NotesView()
 
 # идентификатор, заголовок, тело заметки и дату/время создания или
 # последнего изменения заметки
@@ -23,13 +25,13 @@ data_work=work_with_notes.WorkWithNotes()
 
 all_notes= data_csv.read_data_from_csv()
 # print(notes_from_csv)
-data_work.print_notes(all_notes)
+data_view.print_notes(all_notes)
 
 # data_work.add_new_note(all_notes)
-# data_work.print_notes(all_notes)
+# data_view.print_notes(all_notes)
 # data_csv.save_data_to_csv(all_notes)
 
-# data_work.print_notes(data_work.find_note_by_id(all_notes))
+data_view.print_notes(data_work.find_note_by_id(all_notes))
 
-data_work.print_notes(data_work.find_notes_by_date(all_notes,'Дата создания'))
+# data_view.print_notes(data_work.find_notes_by_date(all_notes,'Дата создания'))
 
