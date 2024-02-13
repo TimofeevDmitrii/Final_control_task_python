@@ -36,7 +36,7 @@ class WorkWithNotes:
         print(f'Добавлена новая заметка (id: {new_note["id"]})')
 
 
-    def __find_note_index(self, notes_lst, id): 
+    def find_note_index(self, notes_lst, id): 
         for i in range(len(notes_lst)):
             if notes_lst[i]['id']==id:
                 return i
@@ -60,5 +60,13 @@ class WorkWithNotes:
             return []
         return list(filter(lambda x: date==datetime.datetime.strptime(x[date_key], '%d.%m.%Y'), notes_lst))
 
-    # def find_note_for_edit(notes_lst):
+    def edit_selected_date(self, edit_note, edit_key):
+        letter_symbols=[chr(i) for i in range(1040,1104)]+[chr(i) for i in range(65,91)]+[chr(i) for i in range(97,123)]
+        correct_data=False
+        while not correct_data:
+            edit_note[edit_key]=input(f'Введите данные для поля "{edit_key}": ').strip().replace(';','.') # если вдруг попала ';' в поле, то будем ее менять на точку, иначе может взникнуть проблема при распаковке данных программой
+            if set(edit_note[edit_key])&set(letter_symbols)==set():                                # из csv файла, т.к. разделителем принят ';'(на этот случай есть отстройка в DictWriter (заключает данные, содержащие ';' в ковычки), но возможно это есть не во всех версиях)
+                print(f'Поле "{edit_key}" обязательно для заполнения и должно содержать буквенные символы')
+            else:
+                correct_data=True 
         
