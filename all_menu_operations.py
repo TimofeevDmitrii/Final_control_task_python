@@ -28,7 +28,7 @@ class Operation(abc.ABC):
     def __init__(self):
         self.work_tools=WorkWithNotes()
         self.view_tools=NotesView()
-        self.csv_tools=WorkWithCSV()
+        self.csv_tools=WorkWithCSV(['id','Дата создания','Дата изменения', 'Название заметки', 'Описание заметки'])
 
     @abc.abstractmethod
     def make(self):

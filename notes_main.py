@@ -5,7 +5,7 @@ from all_menu_operations import AllMenuOperations
 
 
 fields=['id','Дата создания','Дата изменения', 'Название заметки', 'Описание заметки']
-read_data=WorkWithCSV().read_data_from_csv()
+read_data=WorkWithCSV(fields).read_data_from_csv()
 using_operation=AllMenuOperations()
 menu=NotesMenu()
 

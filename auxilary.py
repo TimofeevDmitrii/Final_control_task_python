@@ -32,13 +32,6 @@ class NotesMenu:
             '4. Сохранить изменения и вернуться к главному меню', sep = '\n') 
         return self.__input_choice()
 
-
-    # def show_add_menu(self):
-    #     print('1. Ввести название заметки (обязательно для заполнения)',
-    #         '2. Ввести описание заметки (обязательно для заполнения)',
-    #         '3. Ввести дату создания (если дата заметки соответствует текущей дате, не редактируйте этот пункт)', sep = '\n') 
-    #     return self.input_choice()
-
     def __input_choice(self):
         try:
             return int(input("Введите номер команды: "))
@@ -53,10 +46,9 @@ class NotesMenu:
 class WorkWithCSV:
 
     __file_name = 'Notes.csv'
-    __fields=['id','Дата создания','Дата изменения', 'Название заметки', 'Описание заметки']
 
-    # def __init__(self, fields):
-    #     self.__fields=fields
+    def __init__(self, fields):
+        self.__fields=fields
 
     def save_data_to_csv(self,notes_lst):
         with open(self.__file_name,'w',encoding='utf-8', newline='') as data_file_csv:
@@ -124,7 +116,7 @@ class NotesView:
 
 class WorkWithNotes:
 
-    __fields=['id','Дата создания','Дата изменения','Название заметки','Описание заметки']
+    
     __view_notes=NotesView() 
     
 
@@ -179,7 +171,10 @@ class WorkWithNotes:
                     self.__view_notes.print_notes(find_notes)
                     message="Найдено несколько заметок с такой "+ search_params[start_search_param].replace('Дата','датой')+'\nУточните id искомой заметки в списке отобранных заметок:'
                     id_for_search=input(message)
-                    result_index_for_edit=self.find_note_index(all_notes, id_for_search)
+                    if (id_for_search in [i['id'] for i in find_notes]):
+                        result_index_for_edit=self.find_note_index(all_notes, id_for_search)
+                    else:
+                        result_index_for_edit="Не найдено заметок с таким id в отобранном списке"
             else:
                 result_index_for_edit=find_index_lst
         else:
