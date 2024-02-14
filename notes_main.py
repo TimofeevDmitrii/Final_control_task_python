@@ -69,7 +69,7 @@ if (find_choice!=4):
         edit_choice=menu.show_edit_menu()
         while(edit_choice not in [3,4]):
             if (edit_choice in [1,2]):
-                data_work.edit_selected_date(edit_note, fields[edit_choice+2])
+                data_work.get_correct_data(edit_note, fields[edit_choice+2])
                 edit=True
             edit_choice=menu.show_edit_menu()
         if(edit_choice==4 and edit==True): 
