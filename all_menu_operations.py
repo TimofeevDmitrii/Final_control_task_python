@@ -39,7 +39,10 @@ class Operation(abc.ABC):
 class PrintAllNotes(Operation):
 
     def make(self, all_notes):
-        self.view_tools.print_notes(all_notes)
+        if (len(all_notes)==0):
+            print("Еще не было создано ни одной заметки")
+        else:
+            self.view_tools.print_notes(all_notes)
 
 
 
@@ -49,7 +52,7 @@ class AddNote(Operation):
         new_note={}
         new_note['id']=self.work_tools.give_id_to_new_note(all_notes)
 
-        current_date = datetime.date.today().strftime('%d.%m.%Y')
+        current_date = datetime.datetime.today().strftime('%d.%m.%Y/%H:%M')
         new_note['Дата создания']=current_date
         new_note['Дата изменения']=current_date
 
@@ -86,7 +89,7 @@ class EditNote(Operation):
                     edit_choice=menu.show_edit_menu()
                 if(edit_choice==4 and edit==True): 
                     print("Заметка изменена")
-                    edit_note['Дата изменения']=datetime.date.today().strftime('%d.%m.%Y')
+                    edit_note['Дата изменения']=datetime.datetime.today().strftime('%d.%m.%Y/%H:%M')
                     all_notes[note_index_for_edit]=edit_note
                     self.view_tools.print_notes([all_notes[note_index_for_edit]])
                     self.csv_tools.save_data_to_csv(all_notes)

@@ -71,7 +71,7 @@ class WorkWithCSV:
 class NotesView:
 
     __fields=['id','Дата создания','Дата изменения','Название заметки','Описание заметки'] 
-    __column_sizes={'id': 8, 'Дата создания': 18, 'Дата изменения': 18, 'Название заметки': 40, 'Описание заметки':50}
+    __column_sizes={'id': 8, 'Дата создания': 20, 'Дата изменения': 20, 'Название заметки': 40, 'Описание заметки':50}
 
 
     
@@ -88,7 +88,6 @@ class NotesView:
                 else:
                     print(correct_size_for_print(v,self.__column_sizes[k]-1),end=' ')
             print('\n')
-        print('\n')
 
 
     def __count_spaces_num(self,key):
@@ -151,8 +150,7 @@ class WorkWithNotes:
             date=datetime.datetime.strptime(input('Введите '+date_key.replace('Дата','дату')+' (формат ввода - дд.мм.гггг; например, 01.08.2022):'), '%d.%m.%Y')
         except ValueError:
             return "При вводе даты использован неверный формат"
-        # return list(filter(lambda x: date==datetime.datetime.strptime(x[date_key], '%d.%m.%Y'), all_notes))
-        filter_date=lambda x: date==datetime.datetime.strptime(x[date_key], '%d.%m.%Y')
+        filter_date=lambda x: date==datetime.datetime.strptime(x[date_key].split('/')[0], '%d.%m.%Y')
         return [i for i in range(len(all_notes)) if filter_date(all_notes[i])]
 
 

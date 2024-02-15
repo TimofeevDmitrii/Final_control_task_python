@@ -16,4 +16,5 @@ while (choice!=8):
     if (using_operation.contains_key(choice)):
         curr_operation=using_operation.get_operation(choice)
         curr_operation.make(all_notes_list)
+    print()
     choice=menu.show_menu()
