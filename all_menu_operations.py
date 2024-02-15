@@ -40,7 +40,7 @@ class PrintAllNotes(Operation):
 
     def make(self, all_notes):
         if (len(all_notes)==0):
-            print("Еще не было создано ни одной заметки")
+            print("--->Еще не было создано ни одной заметки")
         else:
             self.view_tools.print_notes(all_notes)
 
@@ -62,7 +62,7 @@ class AddNote(Operation):
             new_note['Название заметки']=new_note['Название заметки'][:39]  
         all_notes.append(new_note)
         self.csv_tools.save_data_to_csv(all_notes)
-        print(f'Добавлена новая заметка (id: {new_note["id"]})')
+        print(f'--->Добавлена новая заметка (id: {new_note["id"]})')
 
 
 class EditNote(Operation):
@@ -93,7 +93,7 @@ class EditNote(Operation):
                     all_notes[note_index_for_edit]=edit_note
                     self.view_tools.print_notes([all_notes[note_index_for_edit]])
                     self.csv_tools.save_data_to_csv(all_notes)
-                    print("Изменения сохранены")
+                    print("--->Изменения сохранены")
 
 
 
@@ -108,7 +108,7 @@ class FindNoteByCreateDate(Operation):
             if(len(find_note_indexes)!=0):
                 self.view_tools.print_notes([all_notes[i] for i in find_note_indexes])
             else:
-                print("Нет заметок с такой датой создания")
+                print("--->Нет заметок из указанного диапазона даты создания")
 
 
 class FindNoteByEditDate(Operation):
@@ -121,14 +121,14 @@ class FindNoteByEditDate(Operation):
             if(len(find_note_indexes)!=0):
                 self.view_tools.print_notes([all_notes[i] for i in find_note_indexes])
             else:
-                print("Нет заметок с такой датой изменения")
+                print("--->Нет заметок из указанного диапазона даты изменения")
 
 
 
 class FindNoteById(Operation):
 
      def make(self, all_notes):
-        note_index=self.work_tools.find_note_index(all_notes, input("Введите id для поиска:"))
+        note_index=self.work_tools.find_note_index(all_notes, input("--->Введите id для поиска:\n--->"))
         if type(note_index)==str:
             print(note_index) 
         else:
@@ -151,8 +151,8 @@ class DeleteNote(Operation):
                 self.view_tools.print_notes([all_notes[note_index_for_delete]])
                 delete=''
                 while delete not in ['yes','no']:
-                    delete=input("Подтвердите удаление данной заметки - напечатайте yes или no: ")
+                    delete=input("--->Подтвердите удаление данной заметки - напечатайте yes или no:\n--->")
                 if delete=='yes':
                     all_notes.pop(note_index_for_delete)
                     self.csv_tools.save_data_to_csv(all_notes)
-                    print("Данная заметка удалена\n")
+                    print("--->Данная заметка удалена\n")
