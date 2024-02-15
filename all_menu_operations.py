@@ -88,7 +88,7 @@ class EditNote(Operation):
                         edit=True
                     edit_choice=menu.show_edit_menu()
                 if(edit_choice==4 and edit==True): 
-                    print("Заметка изменена")
+                    print("--->Заметка изменена")
                     edit_note['Дата изменения']=datetime.datetime.today().strftime('%d.%m.%Y/%H:%M')
                     all_notes[note_index_for_edit]=edit_note
                     self.view_tools.print_notes([all_notes[note_index_for_edit]])
