@@ -34,9 +34,9 @@ class NotesMenu:
 
     def __input_choice(self):
         try:
-            return int(input("Введите номер команды: "))
-        except:
-            print("Неверный ввод команды (ожидается целое положительное число)")
+            return int(input("--->Введите номер команды из списка:\n--->"))
+        except ValueError:
+            print("--->Неверный ввод команды - ожидается целое положительное число (номер команды из списка)")
             return 0
 
 
@@ -130,9 +130,9 @@ class WorkWithNotes:
         letter_symbols=[chr(i) for i in range(1040,1104)]+[chr(i) for i in range(65,91)]+[chr(i) for i in range(97,123)] # все буквенные символы кириллицы и латиницы
         correct_data=False
         while not correct_data:
-            curr_note[curr_key]=input(f'Введите данные для поля "{curr_key}": ').strip().replace(';','.') # если вдруг попала ';' в поле, то будем ее менять на точку, иначе может взникнуть проблема при распаковке данных программой
+            curr_note[curr_key]=input(f'--->Введите данные для поля "{curr_key}":\n--->').strip().replace(';','.') # если вдруг попала ';' в поле, то будем ее менять на точку, иначе может взникнуть проблема при распаковке данных программой
             if set(curr_note[curr_key])&set(letter_symbols)==set():                                # из csv файла, т.к. разделителем принят ';'(на этот случай есть отстройка в DictWriter (заключает данные, содержащие ';' в ковычки), но возможно это есть не во всех версиях)
-                print(f'Поле "{curr_key}" обязательно для заполнения и должно содержать буквенные символы')
+                print(f'--->Поле "{curr_key}" обязательно для заполнения и должно содержать буквенные символы')
             else:
                 correct_data=True 
 
@@ -142,31 +142,22 @@ class WorkWithNotes:
             if all_notes[i]['id']==id:
                 return i
         else:
-            return 'Заметки с таким id нет'
+            return '--->Заметки с таким id нет'
 
 
 
     def find_notes_indexes_by_date_range(self,all_notes, date_key):
-        print("Укажите границы диапозона поиска по "+date_key.replace('Дата','дате'))
+        print("--->Укажите границы диапазона поиска по "+date_key.replace('Дата','дате'))
         try:
-            start_date=datetime.datetime.strptime(input('Введите начальную дату поиска (формат ввода - дд.мм.гггг; например, 01.08.2022):').strip(), '%d.%m.%Y')
-            end_date=datetime.datetime.strptime(input('Введите конечную дату поиска (формат ввода - дд.мм.гггг; например, 01.08.2022):').strip(), '%d.%m.%Y')
+            start_date=datetime.datetime.strptime(input('--->Введите начальную дату поиска (формат ввода - дд.мм.гггг; например, 01.08.2022):\n--->').strip(), '%d.%m.%Y')
+            end_date=datetime.datetime.strptime(input('--->Введите конечную дату поиска (формат ввода - дд.мм.гггг; например, 01.08.2022):\n--->').strip(), '%d.%m.%Y')
         except ValueError:
-            return "При вводе даты использован неверный формат"
+            return "--->При вводе даты использован неверный формат"
         if (start_date>end_date):
-            return "Внимание: была указана начальная дата, которая позже конечной даты"
+            return "--->Внимание: была указана начальная дата, которая позже конечной даты"
         filter_date_range=lambda check_date: start_date<=check_date and end_date>=check_date
         return [i for i in range(len(all_notes)) if filter_date_range(datetime.datetime.strptime(all_notes[i][date_key].split('/')[0], '%d.%m.%Y'))]
 
-        
-
-    # def find_notes_indexes_by_date(self, all_notes, date_key):  
-    #     try:
-    #         date=datetime.datetime.strptime(input('Введите '+date_key.replace('Дата','дату')+' (формат ввода - дд.мм.гггг; например, 01.08.2022):'), '%d.%m.%Y')
-    #     except ValueError:
-    #         return "При вводе даты использован неверный формат"
-    #     filter_date=lambda x: date==datetime.datetime.strptime(x[date_key].split('/')[0], '%d.%m.%Y')
-    #     return [i for i in range(len(all_notes)) if filter_date(all_notes[i])]
 
 
     def find_note_index_for_change(self, all_notes, start_search_param):
@@ -176,20 +167,20 @@ class WorkWithNotes:
             find_index_lst=self.find_notes_indexes_by_date_range(all_notes, search_params[start_search_param])
             if (type(find_index_lst)!=str):
                 if (len(find_index_lst)==0):
-                    result_index_for_edit="Не найдено заметок с такой датой"
+                    result_index_for_edit="--->Не найдено заметок с такой датой"
                 elif (len(find_index_lst)==1):
                     result_index_for_edit=self.find_note_index(all_notes, all_notes[find_index_lst[0]]['id'])
                 else:
                     find_notes=[all_notes[i] for i in find_index_lst]
                     self.__view_notes.print_notes(find_notes)
-                    message="Найдено несколько заметок с такой "+ search_params[start_search_param].replace('Дата','датой')+'\nУточните id искомой заметки в списке отобранных заметок:'
+                    message="--->Найдено несколько заметок с такой "+ search_params[start_search_param].replace('Дата','датой')+'\n--->Уточните id искомой заметки в списке отобранных заметок:\n--->'
                     id_for_search=input(message)
                     if (id_for_search in [i['id'] for i in find_notes]):
                         result_index_for_edit=self.find_note_index(all_notes, id_for_search)
                     else:
-                        result_index_for_edit="Не найдено заметок с таким id в отобранном списке"
+                        result_index_for_edit="--->Не найдено заметок с таким id в отобранном списке"
             else:
                 result_index_for_edit=find_index_lst
         else:
-            result_index_for_edit=self.find_note_index(all_notes, input("Ввeдите id заметки для поиска:"))
+            result_index_for_edit=self.find_note_index(all_notes, input("--->Ввeдите id заметки для поиска:\n--->"))
         return result_index_for_edit
