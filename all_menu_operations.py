@@ -108,7 +108,7 @@ class FindNoteByCreateDate(Operation):
             if(len(find_note_indexes)!=0):
                 self.view_tools.print_notes([all_notes[i] for i in find_note_indexes])
             else:
-                print("--->Нет заметок из указанного диапазона даты создания")
+                print("--->Нет заметок из указанного диапазона дат создания")
 
 
 class FindNoteByEditDate(Operation):
@@ -121,7 +121,7 @@ class FindNoteByEditDate(Operation):
             if(len(find_note_indexes)!=0):
                 self.view_tools.print_notes([all_notes[i] for i in find_note_indexes])
             else:
-                print("--->Нет заметок из указанного диапазона даты изменения")
+                print("--->Нет заметок из указанного диапазона дат изменения")
 
 
 
