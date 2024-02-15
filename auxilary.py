@@ -145,20 +145,35 @@ class WorkWithNotes:
             return 'Заметки с таким id нет'
 
 
-    def find_notes_indexes_by_date(self, all_notes, date_key):  
+
+    def find_notes_indexes_by_date_range(self,all_notes, date_key):
+        print("Укажите границы диапозона поиска по "+date_key.replace('Дата','дате'))
         try:
-            date=datetime.datetime.strptime(input('Введите '+date_key.replace('Дата','дату')+' (формат ввода - дд.мм.гггг; например, 01.08.2022):'), '%d.%m.%Y')
+            start_date=datetime.datetime.strptime(input('Введите начальную дату поиска (формат ввода - дд.мм.гггг; например, 01.08.2022):').strip(), '%d.%m.%Y')
+            end_date=datetime.datetime.strptime(input('Введите конечную дату поиска (формат ввода - дд.мм.гггг; например, 01.08.2022):').strip(), '%d.%m.%Y')
         except ValueError:
             return "При вводе даты использован неверный формат"
-        filter_date=lambda x: date==datetime.datetime.strptime(x[date_key].split('/')[0], '%d.%m.%Y')
-        return [i for i in range(len(all_notes)) if filter_date(all_notes[i])]
+        if (start_date>end_date):
+            return "Внимание: была указана начальная дата, которая позже конечной даты"
+        filter_date_range=lambda check_date: start_date<=check_date and end_date>=check_date
+        return [i for i in range(len(all_notes)) if filter_date_range(datetime.datetime.strptime(all_notes[i][date_key].split('/')[0], '%d.%m.%Y'))]
+
+        
+
+    # def find_notes_indexes_by_date(self, all_notes, date_key):  
+    #     try:
+    #         date=datetime.datetime.strptime(input('Введите '+date_key.replace('Дата','дату')+' (формат ввода - дд.мм.гггг; например, 01.08.2022):'), '%d.%m.%Y')
+    #     except ValueError:
+    #         return "При вводе даты использован неверный формат"
+    #     filter_date=lambda x: date==datetime.datetime.strptime(x[date_key].split('/')[0], '%d.%m.%Y')
+    #     return [i for i in range(len(all_notes)) if filter_date(all_notes[i])]
 
 
     def find_note_index_for_change(self, all_notes, start_search_param):
         result_index_for_edit=''
         search_params={1: 'Дата создания', 2:'Дата изменения', 3: 'id'}
         if (start_search_param in [1,2]):
-            find_index_lst=self.find_notes_indexes_by_date(all_notes, search_params[start_search_param])
+            find_index_lst=self.find_notes_indexes_by_date_range(all_notes, search_params[start_search_param])
             if (type(find_index_lst)!=str):
                 if (len(find_index_lst)==0):
                     result_index_for_edit="Не найдено заметок с такой датой"

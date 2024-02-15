@@ -101,7 +101,7 @@ class EditNote(Operation):
 class FindNoteByCreateDate(Operation):
 
      def make(self, all_notes):
-        find_note_indexes=self.work_tools.find_notes_indexes_by_date(all_notes, 'Дата создания')
+        find_note_indexes=self.work_tools.find_notes_indexes_by_date_range(all_notes, 'Дата создания')
         if type(find_note_indexes)==str:
             print(find_note_indexes) 
         else:
@@ -114,7 +114,7 @@ class FindNoteByCreateDate(Operation):
 class FindNoteByEditDate(Operation):
 
      def make(self, all_notes):
-        find_note_indexes=self.work_tools.find_notes_indexes_by_date(all_notes, 'Дата изменения')
+        find_note_indexes=self.work_tools.find_notes_indexes_by_date_range(all_notes, 'Дата изменения')
         if type(find_note_indexes)==str:
             print(find_note_indexes) 
         else:
