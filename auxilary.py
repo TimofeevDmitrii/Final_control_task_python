@@ -1,6 +1,7 @@
 import csv
 import os
 import datetime
+import abc
 
 
 
@@ -67,8 +68,25 @@ class WorkWithCSV:
 
 
 
+class NotesConsoleView(abc.ABC):
 
-class NotesView:
+    @abc.abstractmethod
+    def print_notes(self, notes_lst):
+        pass
+
+
+
+class StandartNotesView(NotesConsoleView):
+
+    def print_notes(self, notes_lst):
+        for i in notes_lst:
+            for k,v in i.items():
+                print(k+':'+v)
+            print('\n')
+
+
+
+class NotesView(NotesConsoleView):
 
     __fields=['id','Дата создания','Дата изменения','Название заметки','Описание заметки'] 
     __column_sizes={'id': 8, 'Дата создания': 20, 'Дата изменения': 20, 'Название заметки': 40, 'Описание заметки':50}
@@ -116,8 +134,20 @@ class NotesView:
 class WorkWithNotes:
 
     
-    __view_notes=NotesView() 
+    __fields=['id','Дата создания','Дата изменения', 'Название заметки', 'Описание заметки']
+    __data_csv=WorkWithCSV(__fields)
+
+    def __init__(self, view=StandartNotesView):
+        self.__view_notes=view
+
+
+    def read_data_notes(self):
+        return self.__data_csv.read_data_from_csv()
+
     
+    def save_data_notes(self, all_notes):
+         self.__data_csv.save_data_to_csv(all_notes)
+
 
     def give_id_to_new_note(self, all_notes):
         if len(all_notes)!=0:
@@ -167,13 +197,13 @@ class WorkWithNotes:
             find_index_lst=self.find_notes_indexes_by_date_range(all_notes, search_params[start_search_param])
             if (type(find_index_lst)!=str):
                 if (len(find_index_lst)==0):
-                    result_index_for_edit="--->Не найдено заметок с такой датой"
+                    result_index_for_edit="--->Не найдено заметок, удовлетворяющих запрос по дате"
                 elif (len(find_index_lst)==1):
                     result_index_for_edit=self.find_note_index(all_notes, all_notes[find_index_lst[0]]['id'])
                 else:
                     find_notes=[all_notes[i] for i in find_index_lst]
                     self.__view_notes.print_notes(find_notes)
-                    message="--->Найдено несколько заметок с такой "+ search_params[start_search_param].replace('Дата','датой')+'\n--->Уточните id искомой заметки в списке отобранных заметок:\n--->'
+                    message="--->Найдено несколько заметок с подходящей "+ search_params[start_search_param].replace('Дата','датой')+'\n--->Уточните id искомой заметки в списке отобранных заметок:\n--->'
                     id_for_search=input(message)
                     if (id_for_search in [i['id'] for i in find_notes]):
                         result_index_for_edit=self.find_note_index(all_notes, id_for_search)
