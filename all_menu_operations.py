@@ -1,20 +1,56 @@
 import abc
 from auxilary import WorkWithNotes
-from auxilary import NotesView
-from auxilary import WorkWithCSV
+from auxilary import NotesConsoleView
+from auxilary import StandartNotesView
 from auxilary import NotesMenu
 import datetime
+import traceback
 
-class AllMenuOperations:
+class MenuOperationsNotes(abc.ABC):
 
-    def __init__(self):
-        self.__all_operations={1: PrintAllNotes(),
-                             2: AddNote(),
-                             3: EditNote(),
-                             4: FindNoteByCreateDate(),
-                             5: FindNoteByEditDate(),
-                             6: FindNoteById(),
-                             7: DeleteNote()}
+    @abc.abstractmethod
+    def get_operation(self, number):
+        pass
+
+    @abc.abstractmethod
+    def contains_key(self, number):
+        pass
+
+
+class ControllerNotes:
+
+
+    def __init__(self, operations: MenuOperationsNotes, view=StandartNotesView()):
+        self.__using_operation=operations
+        self.__using_operation.initialize(view)
+        self.__menu=NotesMenu()
+
+    def start_working_proccess(self):
+        try:
+            all_notes_list=WorkWithNotes().read_data_notes()
+            choice=self.__menu.show_menu()
+            while (choice!=8):
+                if (self.__using_operation.contains_key(choice)):
+                    curr_operation=self.__using_operation.get_operation(choice)
+                    curr_operation.make(all_notes_list)
+                print()
+                choice= self.__menu.show_menu()
+        except Exception as e:
+            print("\n--->В ходе работы программы произошла ошибка. Возможно файл Notes.csv был поврежден")
+            print("--->Завершение работы.")
+            print(e, traceback.format_exc())
+
+
+class AllMenuOperations(MenuOperationsNotes):
+
+    def initialize(self, view: NotesConsoleView):
+        self.__all_operations={1: PrintAllNotes(view),
+                             2: AddNote(view),
+                             3: EditNote(view),
+                             4: FindNoteByCreateDate(view),
+                             5: FindNoteByEditDate(view),
+                             6: FindNoteById(view),
+                             7: DeleteNote(view)}
 
     def get_operation(self, number):
         return self.__all_operations[number]
@@ -25,10 +61,9 @@ class AllMenuOperations:
 
 class Operation(abc.ABC):
 
-    def __init__(self):
-        self.work_tools=WorkWithNotes()
-        self.view_tools=NotesView()
-        self.csv_tools=WorkWithCSV(['id','Дата создания','Дата изменения', 'Название заметки', 'Описание заметки'])
+    def __init__(self, view=StandartNotesView()):
+        self.work_tools=WorkWithNotes(view)
+        self.view_tools=view
 
     @abc.abstractmethod
     def make(self):
@@ -61,7 +96,7 @@ class AddNote(Operation):
         if (len(new_note['Название заметки'])>39):
             new_note['Название заметки']=new_note['Название заметки'][:39]  
         all_notes.append(new_note)
-        self.csv_tools.save_data_to_csv(all_notes)
+        self.work_tools.save_data_notes(all_notes)
         print(f'--->Добавлена новая заметка (id: {new_note["id"]})')
 
 
@@ -92,7 +127,7 @@ class EditNote(Operation):
                     edit_note['Дата изменения']=datetime.datetime.today().strftime('%d.%m.%Y/%H:%M')
                     all_notes[note_index_for_edit]=edit_note
                     self.view_tools.print_notes([all_notes[note_index_for_edit]])
-                    self.csv_tools.save_data_to_csv(all_notes)
+                    self.work_tools.save_data_notes(all_notes)
                     print("--->Изменения сохранены")
 
 
@@ -154,5 +189,5 @@ class DeleteNote(Operation):
                     delete=input("--->Подтвердите удаление данной заметки - напечатайте yes или no:\n--->")
                 if delete=='yes':
                     all_notes.pop(note_index_for_delete)
-                    self.csv_tools.save_data_to_csv(all_notes)
+                    self.work_tools.save_data_notes(all_notes)
                     print("--->Данная заметка удалена\n")
