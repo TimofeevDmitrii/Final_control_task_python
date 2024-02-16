@@ -86,7 +86,7 @@ class StandartNotesView(NotesConsoleView):
 
 
 
-class NotesView(NotesConsoleView):
+class NotesColumnsView(NotesConsoleView):
 
     __fields=['id','Дата создания','Дата изменения','Название заметки','Описание заметки'] 
     __column_sizes={'id': 8, 'Дата создания': 20, 'Дата изменения': 20, 'Название заметки': 40, 'Описание заметки':50}
